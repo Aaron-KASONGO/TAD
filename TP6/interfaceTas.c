@@ -60,16 +60,23 @@ void reorganiserDsc(TasMin *t, int s) {
     char fg = filsG(t, s);
     char fd = filsD(t, s);
     char v = getValeur(t, s);
-    if(fg != VIDE && fd != VIDE && fd < fg && fd < v) {
-        permuter(t, s, s*2+1);
-        reorganiserDsc(t, s*2+1);
-    } else if (fg != VIDE && fg < v) {
-        permuter(t, s, s*2);
-        reorganiserDsc(t, s*2);
+    if (fg != VIDE && fd != VIDE) {
+        if (fg > fd && fd < v) {
+            permuter(t, s, s*2+1);
+            reorganiserDsc(t, s*2+1);
+        }else if (fg < fd && fg < v) {
+            permuter(t, s, s*2);
+            reorganiserDsc(t, s*2);
+        }
+    }else if (fg != VIDE) {
+        if (fg < v) {
+            permuter(t, s, s*2);
+            reorganiserDsc(t, s*2);
+        }
     }
 }
 
-void supprimerProf(TasMin *t, char x) {
+void supprimerProf(TasMin *t) {
     t->taille--;
     t->arbre[RACINE] = t->arbre[t->s];
     t->s--;
@@ -81,7 +88,7 @@ void supprimer(TasMin *t) {
 
     if (t->taille != 0) {
         for (i; i<t->taille; i++) {
-        t->arbre[i] = t->arbre[i+1];
+            t->arbre[i] = t->arbre[i+1];
         }
         t->taille--;
     }

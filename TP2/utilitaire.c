@@ -23,9 +23,10 @@ void afficherListe(listSC *L) {
 }
 
 
-void supprimer(char *s, char c) {
+void supprimerOccur(char *s, char c) {
     listSC L = tranStrToLSC(s);
     curseur tampon = NIL;
+
 
     while (getCleListe(&L) != NIL)
     {
@@ -35,6 +36,12 @@ void supprimer(char *s, char c) {
             setCleListe(&L, tampon);
             supprimeApres(&L);
         }
+    }
+
+    debutList(&L);
+
+    if (valeur(&L) == c) {
+        supprimeEnTete(&L);
     }
     afficherListe(&L);    
 }

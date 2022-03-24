@@ -45,8 +45,8 @@ char valeur(pile p) {
     return p->tab[p->sommet].val;
 }
 
-void detruire(pile p) {
-    p->sommet = NULL;
-    p->taille = NIL;
-    p->tab[TAILLEMax];
-}
+// void detruire(pile p) {
+//     p->sommet = NULL;
+//     p->taille = NIL;
+//     p->tab[TAILLEMax];
+// }

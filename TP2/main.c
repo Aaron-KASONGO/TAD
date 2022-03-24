@@ -1,27 +1,17 @@
 #include "utilitaire.c"
 
+int sompr(int i) {
+    if (i>0) {
+        return i + sompr(i-1);
+    }else{
+        return 0;
+    }
+}
+
 int main()
 {
 
-    listSC list;
-    creerListe(&list);
-    insereEnTete(&list, 'A');
-    insereEnTete(&list, 'B');
-    insereEnTete(&list, 'C');
-    insereEnTete(&list, 'D');
-    suivant(&list);
-    suivant(&list);
-    insereApres(&list, 'F');
-    supprimeEnTete(&list);
-    insereEnTete(&list, 'C');
-    insereEnTete(&list, 'G');
-    afficherListe(&list);
-    supprimeApres(&list);
-    afficherListe(&list);
-    suivant(&list);
-    suivant(&list);
-    supprimeApres(&list);
-    afficherListe(&list);
+    printf("%d",sompr(10));
     
     return 0;
 }

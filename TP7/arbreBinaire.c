@@ -37,7 +37,7 @@ void  setValeur(sommet s, objet o) {
 
 sommet filsGauche(sommet S) {
     if (S->gauche != NULL) {
-        return S->droit;
+        return S->gauche;
     }else{
         return NULL;
     }
