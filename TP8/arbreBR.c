@@ -1,6 +1,6 @@
-#include "arbreBinaire.h"
+#include "arbreBR.h"
 
-sommet creerArbreBinaire(objet racine) {
+sommet creerArbreBR(objet racine) {
     sommet a = (sommet)malloc(sizeof(struct sommet));
     a->info = racine;
     a->droit = NULL;
@@ -9,30 +9,100 @@ sommet creerArbreBinaire(objet racine) {
     return a;
 }
 
-void ajouterFilsGauche(sommet s, objet o) {
-    sommet n = (sommet)malloc(sizeof(struct sommet));
-    s->gauche = n;
-    n->pere = s;
-    n->info = o;
-    n->droit = NULL;
-    n->gauche = NULL;
+void inserer(sommet abr, objet o) {
+    objet v;
+    sommet g, d;
+
+    v = getValeur(abr);
+    g = filsGauche(abr);
+    d = filsDroit(abr);
+
+    if (o > v) {
+        if (d) {
+            inserer(d, o);
+        }else{
+            sommet n = (sommet)malloc(sizeof(struct sommet));
+            abr->droit = n;
+            abr->droit->pere = abr;
+            abr->droit->info = o;
+        }
+    }else {
+        if (g) {
+            inserer(g, o);
+        }else {
+            sommet n = (sommet)malloc(sizeof(struct sommet));
+            abr->gauche = n;
+            abr->gauche->pere = abr;
+            abr->gauche->info = o;
+        }
+    }
 }
 
-void ajouterFilsDroit(sommet s, objet o) {
-    sommet n = (sommet)malloc(sizeof(struct sommet));
-    s->droit = n;
-    n->pere = s;
-    n->info = o;
-    n->droit = NULL;
-    n->gauche = NULL;
+sommet minimum(sommet abr) {
+    sommet g;
+
+    g = filsGauche(abr);
+    if (g) {
+        minimum(g);
+    }else {
+        return abr;
+    }
+}
+
+sommet maximum(sommet abr) {
+    sommet d;
+
+    d = filsDroit(abr);
+    if (d) {
+        maximum(d);
+    }else {
+        return abr;
+    }
+}
+
+sommet successeur(sommet abr) {
+    sommet d;
+
+    d = filsDroit(abr);
+    if (d)
+        return minimum(d);
+    else
+        return abr;
+}
+
+sommet predecesseur(sommet abr) {
+    sommet g;
+
+    g = filsGauche(abr);
+    if (g)
+        return maximum(g);
+    else
+        return abr;
+}
+
+sommet rechercher(sommet abr, objet o) {
+    objet v;
+    sommet g, d;
+
+    v = getValeur(abr);
+    g = filsGauche(abr);
+    d = filsDroit(abr);
+
+    if (v == o) {
+        return abr;
+    }else {
+        if (v < o && d) {
+            rechercher(d, o);
+        }else if (v > o && g){
+            rechercher(g, o);
+        }else {
+            return NULL;
+        }
+    }
 }
 
 objet getValeur(sommet s) {
     return s->info;
-}
-
-void  setValeur(sommet s, objet o) {
-    s->info = o;
 }
 
 sommet filsGauche(sommet S) {
@@ -59,23 +129,14 @@ sommet pere(sommet S) {
     }
 }
 
-void detruireSommet(sommet s) {
-    if (s != NULL) {
-        detruireSommet(filsGauche(s));
-        detruireSommet(filsDroit(s));
-        free(s);
-        s = NULL;
-    }
-}
-
-void supprimerFilsGauche(sommet s) {
-    if (s->gauche !=NULL) {
-        detruireSommet(s->gauche);
-    }
-}
-
-void supprimerFilsDroit(sommet s) {
-    if (s->droit !=NULL) {
-        detruireSommet(s->droit);
+// il y a encore à faire...
+void supprimer(sommet abr, objet o) {
+    sommet g, d, sup, suc;
+    
+    sup = rechercher(abr, o);
+    if (sup) {
+        suc = successeur(sup);
+        sup->info = getValeur(suc);
+        supprimer(suc, sup->info);
     }
 }

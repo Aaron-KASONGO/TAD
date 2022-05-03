@@ -7,7 +7,7 @@
 
 typedef char objet;
 typedef struct sommet *sommet;
-typedef struct sommet arbreBinaire;
+typedef struct sommet arbreBR;
 
 struct sommet
 {
@@ -16,7 +16,7 @@ struct sommet
 };
 
 
-sommet creerArbreBinaire(objet racine);
+sommet creerArbreBR(objet racine);
 void detruireSommet(sommet s);
 char getValeur(sommet s);
 void  setValeur(sommet s, objet o);
